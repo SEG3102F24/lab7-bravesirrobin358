@@ -15,5 +15,9 @@ export class Author {
     public id: number,
     public firstName: string,
     public lastName: string
-  ){}
+  ) {}
+}
+
+export class Bio {
+  constructor(public id: number, public biodata: string) {}
 }

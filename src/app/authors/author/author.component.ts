@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Book } from 'src/app/books/model/book';
+import { Bio, Book } from 'src/app/books/model/book';
 import { BooksService } from 'src/app/books/service/books.service';
 import { Subscription } from 'rxjs';
 import { AuthorBooksPipe } from '../../pipes/author-books.pipe';
@@ -16,6 +16,7 @@ import { Author } from 'src/app/books/model/book';
 })
 export class AuthorComponent implements OnInit, OnDestroy {
   selectedAuthor!: Author | null;
+  selectedAuthorBio!: String | null;
   private subscription!: Subscription;
   private route: ActivatedRoute = inject(ActivatedRoute);
   private booksService: BooksService = inject(BooksService);
@@ -29,6 +30,15 @@ export class AuthorComponent implements OnInit, OnDestroy {
         },
         error: (_: any) => {
           this.selectedAuthor = null;
+        },
+      });
+      this.subscription = this.booksService.getAuthorBio(id).subscribe({
+        next: (data: Bio) => {
+          console.log(data);
+          this.selectedAuthorBio = data.biodata;
+        },
+        error: (_: any) => {
+          this.selectedAuthorBio = null;
         },
       });
     });
